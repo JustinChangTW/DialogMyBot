@@ -4,6 +4,7 @@
 // Generated with Bot Builder V4 SDK Template for Visual Studio EmptyBot v4.11.1
 
 using DialogMyBot.Bots;
+using DialogMyBot.Dialogs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -32,7 +33,12 @@ namespace DialogMyBot
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, MyBot>();
+            services.AddSingleton<UserProfileDialog>();
+            services.AddTransient<IBot, MyBot<UserProfileDialog>>();
+
+            services.AddSingleton<IStorage, MemoryStorage>();
+            services.AddSingleton<UserState>();
+            services.AddSingleton<ConversationState>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
